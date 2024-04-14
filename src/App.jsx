@@ -1,121 +1,118 @@
-import React, { useEffect, useState } from 'react';
-import { useWindupString } from 'windups';
-import styled, { keyframes } from 'styled-components';
-import barbie1 from './assets/barbie1.jpg';
-import barbie2 from './assets/barbie3.jpg';
-import barbie3 from './assets/barbie2.jpg';
-import BarbieLogo from './assets/BarbieLogo.png';
+import React, { useState } from "react";
+import styled, { css, createGlobalStyle } from 'styled-components';
+import { WindupChildren, CharWrapper } from "windups";
 
-const fadeIn = keyframes`
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-`;
+import lightbulb from "./assets/lightbulb.png";
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    min-height: 100vh;
-    background-color: #ffccf9;
-    gap: 40px;
-    animation: ${fadeIn} 2s ease;
-    padding: 40px;
-    box-sizing: border-box;
-`;
-
-const TextBlock = styled.div`
-    padding: 10px;
-    border: 3px dashed #ff69b4;
-    border-radius: 20px;
-    font-family: 'Brush Script MT', cursive;
-    font-size: 36px;
-    color: #ff69b4;
+const StyledContainer = styled.div`
+    font-family: 'Courier New', Courier, monospace; /* Typewriter font */
     text-align: center;
-    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.6);
-    background-color: rgba(255, 255, 255, 0.8);
-`;
-
-const Emphasized = styled.em`
-    font-style: normal;
-    color: #ff1493;
-    font-weight: bold;
-    text-decoration: underline;
-`;
-
-const Image = styled.img`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
-    max-width: 300px;
-    height: 200px;
-    border-radius: 20px;
-    box-shadow: 0px 6px 12px rgba(255, 105, 180, 0.6);
-    margin: 0 10px;
-    object-fit: cover;
+    font-size: 36px;
 `;
 
-const Logo = styled.img`
-    width: 50%;
-    max-width: 200px;
-    height: 125px;
-    object-fit: cover;
+const animationStyles = css`
+    display: inline-block;
+    animation: ${props => props.jump ? "jump 0.5s infinite" : "fadeIn 0.5s forwards"};
 `;
 
-const ImageRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 20px;
+const StyledSpan = styled.span`
+    ${props => props.char !== ' ' ? animationStyles : ''}
+    color: ${props => props.color === 'black' ? 'white' : props.color};
 `;
 
-export default function App() {
-    const [showFirstText, setShowFirstText] = useState(false);
-    const [showSecondText, setShowSecondText] = useState(false);
-    const [showThirdText, setShowThirdText] = useState(false);
+const GlobalStyle = createGlobalStyle`
+    body {
+        background-color: black; /* Set the background color to white */
+    }
 
-    const [firstText] = useWindupString("Welcome to the Barbie World!", { pace: (char) => (char === " " ? 500 : 100) });
-    const [secondText] = useWindupString("I'm a Barbie girl in a Barbie world!", { pace: (char) => (char === " " ? 500 : 100) });
-    const [thirdText] = useWindupString("Explore the world of Barbie, where imagination knows no bounds!", { pace: (char) => (char === " " ? 500 : 100) });
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    @keyframes jump {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+`;
 
-    useEffect(() => {
-        const timer1 = setTimeout(() => setShowFirstText(true), 500);
-        const timer2 = setTimeout(() => setShowSecondText(true), 2000);
-        const timer3 = setTimeout(() => setShowThirdText(true), 3500);
+function TextAnimation() {
+    const introPrefix = "Welcome to our ";
+    const introHighlight = "S&T Presentation";
+    const introSuffix = "!";
 
-        return () => {
-            clearTimeout(timer1);
-            clearTimeout(timer2);
-            clearTimeout(timer3);
-        };
-    }, []);
+    const byLinePrefix = "By ";
+    const names1 = "Anissa, Ana, Ashley, ";
+    const conjunction = "and ";
+    const names2 = "Gary";
+
+    const [introComplete, setIntroComplete] = useState(false);
+
+    const handleIntroComplete = () => {
+        setIntroComplete(true);
+    };
 
     return (
-        <Container>
-            <Logo src={BarbieLogo} alt="Barbie Logo" />
-
-            {showFirstText && (
-                <TextBlock>
-                    {firstText}
-                </TextBlock>
-            )}
-            {showSecondText && (
-                <TextBlock>
-                    {secondText}
-                </TextBlock>
-            )}
-            <ImageRow>
-                <Image src={barbie1} alt="Barbie 1" />
-                <Image src={barbie3} alt="Barbie 3" />
-                <Image src={barbie2} alt="Barbie 2" />
-            </ImageRow>
-            {showThirdText && (
-                <TextBlock>
-                    {thirdText}
-                </TextBlock>
-            )}
-        </Container>
+        <>
+            <GlobalStyle />
+            <StyledContainer>
+                <WindupChildren onFinished={handleIntroComplete}>
+                    {introPrefix.split("").map((char, index) => (
+                        <CharWrapper key={index} element={props => <StyledSpan {...props} char={char} color="black"/>}>
+                            {char}
+                        </CharWrapper>
+                    ))}
+                    {introHighlight.split("").map((char, index) => (
+                        <CharWrapper key={index + introPrefix.length}
+                                     element={props => <StyledSpan {...props} char={char} color="pink" jump/>}>
+                            {char}
+                        </CharWrapper>
+                    ))}
+                    {introSuffix.split("").map((char, index) => (
+                        <CharWrapper key={index + introPrefix.length + introHighlight.length}
+                                     element={props => <StyledSpan {...props} char={char} color="black"/>}>
+                            {char}
+                        </CharWrapper>
+                    ))}
+                </WindupChildren>
+                {introComplete && (
+                    <WindupChildren>
+                        <br/>
+                        {byLinePrefix.split("").map((char, index) => (
+                            <CharWrapper key={index}
+                                         element={props => <StyledSpan {...props} char={char} color="black"/>}>
+                                {char}
+                            </CharWrapper>
+                        ))}
+                        {names1.split("").map((char, index) => (
+                            <CharWrapper key={index + byLinePrefix.length}
+                                         element={props => <StyledSpan {...props} char={char} color="pink"/>}>
+                                {char}
+                            </CharWrapper>
+                        ))}
+                        {conjunction.split("").map((char, index) => (
+                            <CharWrapper key={index + byLinePrefix.length + names1.length}
+                                         element={props => <StyledSpan {...props} char={char} color="black"/>}>
+                                {char}
+                            </CharWrapper>
+                        ))}
+                        {names2.split("").map((char, index) => (
+                            <CharWrapper key={index + byLinePrefix.length + names1.length + conjunction.length}
+                                         element={props => <StyledSpan {...props} char={char} color="pink"/>}>
+                                {char}
+                            </CharWrapper>
+                        ))}
+                        <img src={lightbulb} alt="Lightbulb" style={{ display: "block", margin: "15px auto 0", width: "75px", height: "75px" }} />
+                    </WindupChildren>
+                )}
+            </StyledContainer>
+        </>
     );
 }
+
+
+export default TextAnimation;
