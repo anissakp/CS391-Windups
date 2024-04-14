@@ -41,78 +41,34 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function TextAnimation() {
-    const introPrefix = "Welcome to our ";
-    const introHighlight = "S&T Presentation";
-    const introSuffix = "!";
+    const [animationKey, setAnimationKey] = useState(0);
 
-    const byLinePrefix = "By ";
-    const names1 = "Anissa, Ana, Ashley, ";
-    const conjunction = "and ";
-    const names2 = "Gary";
-
-    const [introComplete, setIntroComplete] = useState(false);
-
-    const handleIntroComplete = () => {
-        setIntroComplete(true);
+    const rewindAnimation = () => {
+        setAnimationKey(prevKey => prevKey + 1);  // Change the key to retrigger the animation
     };
 
     return (
         <>
             <GlobalStyle />
             <StyledContainer>
-                <WindupChildren onFinished={handleIntroComplete}>
-                    {introPrefix.split("").map((char, index) => (
-                        <CharWrapper key={index} element={props => <StyledSpan {...props} char={char} color="black"/>}>
+                <WindupChildren key={animationKey} onFinished={() => console.log("Animation Finished")}>
+                    {"Welcome to our S&T Presentation!".split("").map((char, index) => (
+                        <CharWrapper key={index} element={props => <StyledSpan {...props} char={char} color={index < 15 ? "black" : "pink"}/>}>
                             {char}
                         </CharWrapper>
                     ))}
-                    {introHighlight.split("").map((char, index) => (
-                        <CharWrapper key={index + introPrefix.length}
-                                     element={props => <StyledSpan {...props} char={char} color="pink" jump/>}>
+                    <br />
+                    {"By Anissa, Ana, Ashley, and Gary".split("").map((char, index) => (
+                        <CharWrapper key={index + 100} element={props => <StyledSpan {...props} char={char} color="pink" />}>
                             {char}
                         </CharWrapper>
                     ))}
-                    {introSuffix.split("").map((char, index) => (
-                        <CharWrapper key={index + introPrefix.length + introHighlight.length}
-                                     element={props => <StyledSpan {...props} char={char} color="black"/>}>
-                            {char}
-                        </CharWrapper>
-                    ))}
+                    <img src={lightbulb} alt="Lightbulb" style={{ display: "block", margin: "15px auto 0", width: "75px", height: "75px" }} />
                 </WindupChildren>
-                {introComplete && (
-                    <WindupChildren>
-                        <br/>
-                        {byLinePrefix.split("").map((char, index) => (
-                            <CharWrapper key={index}
-                                         element={props => <StyledSpan {...props} char={char} color="black"/>}>
-                                {char}
-                            </CharWrapper>
-                        ))}
-                        {names1.split("").map((char, index) => (
-                            <CharWrapper key={index + byLinePrefix.length}
-                                         element={props => <StyledSpan {...props} char={char} color="pink"/>}>
-                                {char}
-                            </CharWrapper>
-                        ))}
-                        {conjunction.split("").map((char, index) => (
-                            <CharWrapper key={index + byLinePrefix.length + names1.length}
-                                         element={props => <StyledSpan {...props} char={char} color="black"/>}>
-                                {char}
-                            </CharWrapper>
-                        ))}
-                        {names2.split("").map((char, index) => (
-                            <CharWrapper key={index + byLinePrefix.length + names1.length + conjunction.length}
-                                         element={props => <StyledSpan {...props} char={char} color="pink"/>}>
-                                {char}
-                            </CharWrapper>
-                        ))}
-                        <img src={lightbulb} alt="Lightbulb" style={{ display: "block", margin: "15px auto 0", width: "75px", height: "75px" }} />
-                    </WindupChildren>
-                )}
+                <button onClick={rewindAnimation}>Rewind</button>
             </StyledContainer>
         </>
     );
 }
-
 
 export default TextAnimation;
