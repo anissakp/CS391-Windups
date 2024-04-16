@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css, createGlobalStyle } from 'styled-components';
-import { WindupChildren, CharWrapper, useRewind, Pace } from "windups";
+import { WindupChildren, CharWrapper, Pace, useRewind } from "windups";
 
 const StyledContainer = styled.div`
     font-family: 'Courier New', Courier, monospace;
@@ -76,16 +76,17 @@ function TextAnimation() {
                         ))}
                     </Pace>
                     <br />
-                    {byLine.split("").map((char, index) => (
-                        <CharWrapper key={index + 100} element={props => <StyledSpan {...props} char={char} color="white" />}>
-                            {char}
-                        </CharWrapper>
-                    ))}
+                    <Pace ms={100}>
+                        {byLine.split("").map((char, index) => (
+                            <CharWrapper key={index + 100} element={props => <StyledSpan {...props} char={char} color="white" />}>
+                                {char}
+                            </CharWrapper>
+                        ))}
+                    </Pace>
                     <RewindButton />
                 </WindupChildren>
             </StyledContainer>
         </>
     );
 }
-
 export default TextAnimation;
