@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css, createGlobalStyle } from 'styled-components';
-import { WindupChildren, CharWrapper, useRewind } from "windups";
-import lightbulb from "./assets/lightbulb.png";
+import { WindupChildren, CharWrapper, useRewind, Pace } from "windups";
 
 const StyledContainer = styled.div`
     font-family: 'Courier New', Courier, monospace;
@@ -12,20 +11,18 @@ const StyledContainer = styled.div`
     transform: translate(-50%, -50%);
     width: 100%;
     font-size: 36px;
+    padding-bottom: 50px;
 `;
 
 const StyledButton = styled.button`
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 10px auto;
     padding: 10px 20px;
     font-size: 18px;
     cursor: pointer;
     background-color: #f0f0f0;
     border: none;
     border-radius: 5px;
-    margin-top: 10px;
+    display: block;
     color: black;
 `;
 
@@ -71,11 +68,13 @@ function TextAnimation() {
             <GlobalStyle />
             <StyledContainer>
                 <WindupChildren>
-                    {text.split("").map((char, index) => (
-                        <CharWrapper key={index} element={props => <StyledSpan {...props} char={char} color={index < 15 ? "white" : "pink"} jump={index >= 15 && index < 33}/>}>
-                            {char}
-                        </CharWrapper>
-                    ))}
+                    <Pace ms={100}>
+                        {text.split("").map((char, index) => (
+                            <CharWrapper key={index} element={props => <StyledSpan {...props} char={char} color={index < 15 ? "white" : "pink"} jump={index >= 15 && index < 33}/>}>
+                                {char}
+                            </CharWrapper>
+                        ))}
+                    </Pace>
                     <br />
                     {byLine.split("").map((char, index) => (
                         <CharWrapper key={index + 100} element={props => <StyledSpan {...props} char={char} color="white" />}>
@@ -84,7 +83,6 @@ function TextAnimation() {
                     ))}
                     <RewindButton />
                 </WindupChildren>
-                <img src={lightbulb} alt="Lightbulb" style={{ display: "block", margin: "15px auto 0", width: "75px", height: "75px" }} />
             </StyledContainer>
         </>
     );
