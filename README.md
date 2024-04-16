@@ -1,8 +1,6 @@
-# React + Vite
+# CS 391: Windups
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Windup library is a powerful and versatile tool for creating text animations in React applications. It allows developers to simulate the effect of typing or the progressive revealing of text, enhancing the visual and interactive experience of web interfaces.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Examples, guides, API docs, and more!
+https://windups.gwil.co/
