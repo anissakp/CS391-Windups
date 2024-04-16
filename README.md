@@ -1,5 +1,5 @@
 # Windups
-S&T Presentation by Anissa, Ana, Ashley, and Gary
+CS 391 S&T Presentation by Anissa, Ana, Ashley, and Gary
 
 The Windup library is a powerful and versatile tool for creating text animations in React applications. It allows developers to simulate the effect of typing or the progressive revealing of text, enhancing the visual and interactive experience of web interfaces.
 
