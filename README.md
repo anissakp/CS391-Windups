@@ -5,4 +5,3 @@ Examples, guides, API docs, and more!
 https://windups.gwil.co/
 
 CS 391 S&T Presentation by Anissa, Ana, Ashley, and Gary
-https://docs.google.com/presentation/d/1DdW-rPk6JQuhmkA1fIwEn5taNNKTVUBGeUSAFBwHCsw/edit?usp=sharing
